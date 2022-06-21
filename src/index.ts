@@ -1,1 +1,1 @@
-export { REST } from './Structures/REST';
+export { RESTFUL } from './Structures/RESTFUL';
