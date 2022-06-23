@@ -48,6 +48,23 @@ export class RESTFUL {
         return this;
     }
 
-    
+	public loadTracks(options: { source?: LavalinkSource, query: string } | string) {
+		if (typeof options === 'string') {
+			return this.get<LoadTrackResponse>(
+				Routes.loadTracks(
+					this.isUrl(options)
+					? encodeURIComponent(options)
+					: encodeURIComponent(`${this.resolveIdentifier(LavalinkSourceEnum.Youtube)}:${options}`)
+				)
+			)
+		}
 
+		const source = options.source ?? LavalinkSourceEnum.Youtube;
+		const { query } = options;
+		return this.get<LoadTrackResponse>(
+			Routes.loadTracks(
+				this.isUrl(options.query) ? encodeURIComponent(query) : `${encodeURIComponent(`${this.resolveIdentifier(source)}`)}:${query}`
+			)
+		)
+	}
 }
